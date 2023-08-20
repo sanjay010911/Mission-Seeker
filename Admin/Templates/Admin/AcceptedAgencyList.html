@@ -1,0 +1,42 @@
+{% extends 'Admin/Head.html' %} 
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1" align="center" cellpadding="10" style="border-collapse: collapse;">
+    <tr>
+        <th>SI No</th>
+        <th>Agency Name</th>
+        <th>Agency Address</th>
+        <th>Agency Mail</th>
+        <th>Agency Proof</th>
+        <th>Agency Photo</th>
+        <th>Agency Contact</th>
+        <th>Place</th>
+        <th>Action</th>
+    </tr>
+    {% for i in data %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.agency_name}}</td>
+        <td>{{i.agency_address}}</td>
+        <td>{{i.agency_mail}}</td>
+        <td><img src="{{i.agency_proof.url}}" width="150" height="150"></td>
+        <td><img src="{{i.agency_photo.url}}" width="150" height="150"></td>
+        <td>{{i.agency_contact}}</td>
+        <td>{{i.place}}</td>
+        <td><a href="{% url 'webadmin:rejectagency' i.id %}">Reject</a></td>
+    </tr>
+    {% endfor %}
+    </table>
+</body>
+<br><br><br><br><br><br><br><br><br><br><br>
+</html>
+{% endblock content %}

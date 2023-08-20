@@ -1,0 +1,34 @@
+{% extends 'Guest/Head.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body class="img js-fullheight" style="background-image: url({% static 'Login/images/bg3.jpg' %})">
+    <br><br><br><br><br><br><br><br><br>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <font color="white">
+        <table border="1" align="center" cellpadding="10" style="border-collapse: collapse;">
+        <tr>
+            <td>Enter OTP here:</td>
+            <td><input type="text" name="txt_otp" autocomplete="off"></td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2"><input type="submit" value="Submit OTP">&nbsp&nbsp&nbsp&nbsp<input type="reset" value="Cancel"></td>
+        </tr>
+        </table>
+        {% if msg %}
+        <script>
+            alert("{{msg}}");
+        </script>
+        {% endif %}<br><br><br><br><br><br><br><br><br></font>
+    </form>
+</body>
+</html>
+{% endblock content %}

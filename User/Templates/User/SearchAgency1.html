@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 align="center">Search Agency</h1>
+    <form action=""method="POST" id="UserForm" data-place-url="{% url 'webguest:Ajax-Place' %}" data-place-url="{% url 'webuser:ajaxagency' %}">
+        {% csrf_token %}
+        <table border="1" align="center" cellpadding="10" style="border-collapse: collapse;">
+            <tr>
+                <td>District:</td>
+                <td><select name="sel_dist" id="sel_dist">
+                    <option value="">--SELECT--</option>
+                    {% for i in dis%}
+                    <option value="{{i.id}}">{{i}}</option>
+                    {% endfor %}
+                </select></td>
+                <td>Place Name:</td>
+                <td><select name="txt_place" id="pl" required="" autocomplete="off">
+                    <option value="null">--SELECT--</option>
+                    
+                </select></td>
+           
+                <td>CaseType:</td>
+                <td><select name="sel_case">
+                    <option value="">--SELECT--</option>
+                    {% for i in cs%}
+                    <option value="{{i.id}}">{{i}}</option>
+                    {% endfor %}
+                </select></td>
+            </tr>
+        </table>
+        <br>
+      
+     <table align="center" cellpadding="50" style="border-collapse: collapse" id="result">
+        <tr>
+            {% for i in ag %}
+
+            <td>
+                <div style="text-align:center;border:1px solid black;margin:22px;padding:20px">
+
+                    <p><img src="{{i.agency_photo.url}}" width="100px" height="100px" /></p>
+                    <br>
+                    <p>{{i.agency_name}}</p>
+                    <br>
+                    <p>{{i.agency_contact}}</p>
+                    <br>
+                    <p>{{i.agency_mail}}</p>
+                    <br>
+                </div>
+            </td>
+            {% if forloop.counter|divisibleby:4 %}
+        </tr>
+        <tr>
+            {% endif %}
+
+
+            {% endfor %}
+    </table>
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $("#sel_dist").change(function () {
+            var did = $(this).val();
+            var ur = $("#UserForm").attr("data-place-url");
+            $.ajax({
+                url: ur,
+                data: { disd: did, },
+                success: function (data) {
+                    $("#pl").html(data);
+                },
+            });
+        });
+    </script>
+</body>
+</html>

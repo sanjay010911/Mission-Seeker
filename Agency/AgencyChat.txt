@@ -1,0 +1,82 @@
+def a_keyverification(request,cid):
+    request.session['aid']=cid
+    
+    agnid=NewAgency.objects.get(id=request.session['agid'])
+    K=agnid.keys
+    print(K)
+        
+    if request.method=="POST":
+        Key=request.POST.get('en_key')
+        Key = Key.encode()
+        if Key==K:
+            return redirect('agency:Chat-agency')
+        else:
+            error="Key Incorrect!!"
+            return render(request,"Agency/KeyVerification.html",{'ERROR':error})
+    else:
+        return render(request,"Agency/KeyVerification.html")
+
+
+
+
+
+
+def chat(request):
+    chatobj = Crime.objects.get(id=request.session["aid"])
+    if request.method == "POST":
+        cied = request.POST.get("cid")
+        # print(cied)
+        ciedobj = NewUser.objects.get(id=cied)
+        key=ciedobj.key
+        a=Fernet(key)
+        sobj = NewAgency.objects.get(id=request.session["agid"])
+        content = request.POST.get("msg")
+        slog=content.encode()
+        encrypted=a.encrypt(slog)
+        # print(cied)
+        print(content)
+        Chat.objects.create(
+            from_agency=sobj, to_user=ciedobj, content=encrypted, from_user=None, to_agency=None)
+        return render(request, 'Agency/Chat.html', {"chatobj": chatobj})
+    else:
+        return render(request, 'Agency/Chat.html', {"chatobj": chatobj})
+
+
+def loadchat(request):
+    cid = request.GET.get("cid")
+    request.session["cid"] = cid
+
+    cid1 = request.session["cid"]
+    # print(cid1)
+
+    # print(cid)
+    shopobj = NewUser.objects.get(id=cid)
+    key1=shopobj.key
+    
+    b=Fernet(key1)
+    
+    # print(userobj)
+    sid = request.session["agid"]
+    
+    # print(sid)
+    suserobj = NewAgency.objects.get(id=request.session["agid"])
+    key=suserobj.keys
+    a=Fernet(key)
+
+    chatobj = Chat.objects.raw(
+        "select * from User_chat c inner join Guest_newagency u on (u.id=c.from_agency_id) or (u.id=c.to_agency_id) WHERE  c.from_user_id=%s or c.to_user_id=%s order by c.date", params=[(cid1), (cid1)])
+    
+    leh=(len(chatobj))
+    message=[0 for i in range(0,leh)]
+    
+    for i in range(0,leh):
+        csid=int(cid)
+        if chatobj[i].from_user_id==csid and chatobj[i].to_agency_id==sid:
+            chatobj[i].content=a.decrypt(chatobj[i].content).decode()
+        elif chatobj[i].to_user_id==csid and chatobj[i].from_agency_id==sid:
+            chatobj[i].content=b.decrypt(chatobj[i].content).decode()
+    # print(message)   
+    lk=[0 for i in range(0,leh)]  
+    for i in range(0,leh):
+        lk[i]=i
+    return render(request, 'Agency/Load.html', {"obj": chatobj, "sid": sid, "shop": shopobj, "userobj": suserobj,'content':message,'len':lk})

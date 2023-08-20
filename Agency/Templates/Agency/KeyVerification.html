@@ -1,0 +1,37 @@
+{% extends 'Agency/Head.html' %} 
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body class="img js-fullheight" style="background-image: url({% static 'Main/img/team-bg.jpg' %})">
+    <br><br><br><br><br><br><br><br><br>
+    <div id="tab">
+    <h1 align="center" style="color: white;">Key Verification</h1><br><br><br>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table border="1" align="center" cellpadding="10" style="border-collapse: collapse;">
+            <tr>
+                <td style="color: white;">Enter Key</td>
+                <td><input type="text" name="en_key" autocomplete="off"></td>
+            </tr>
+            <tr>
+                <td align="center" colspan="2"><input type="submit"><input type="reset" value="Cancel"></td>
+            </tr>
+        </table>
+    </div>
+    </form>
+    <script>
+        {% if msg %}
+           alert("{{msg}}")
+        {% endif %}
+    </script>
+</body>
+</html>
+<br><br><br><br><br><br><br>
+{% endblock content %}

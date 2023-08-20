@@ -1,0 +1,133 @@
+{% extends 'User/Head.html' %} 
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body class="img js-fullheight" style="background-image: url({% static 'Main/img/team-bg.jpg' %})">
+    <br><br><br><br><br><br><br><br>
+    <div id="tab">
+        <h1 align="center" style="color: white;">Search Agency</h1><br><br>
+    <form action=""method="POST" id="UserForm" data-place-url="{% url 'webguest:Ajax-Place' %}" data-agency-url="{% url 'webuser:Ajax-Agency' %}">
+        {% csrf_token %}
+        <table border="1" align="center" cellpadding="10" style="border-collapse: collapse;">
+            <tr>
+                <td style="color: white;">District:</td>
+                <td style="color: white;"><select name="sel_dist" id="sel_dist">
+                    <option value="">--SELECT--</option>
+                    {% for i in dis%}
+                    <option value="{{i.id}}">{{i}}</option>
+                    {% endfor %}
+                </select></td>
+                <td style="color: white;">Place Name:</td>
+                <td style="color: white;"><select name="txt_place" id="pl" required="" autocomplete="off">
+                    <option value="">--SELECT--</option>
+                    
+                </select></td>
+           
+                <td style="color: white;">CaseType:</td>
+                <td style="color: white;"><select name="sel_case" id="sel_case">
+                    <option value="">--SELECT--</option>
+                    {% for i in cs%}
+                    <option value="{{i.id}}">{{i}}</option>
+                    {% endfor %}
+                </select></td>
+            </tr>
+        </table>
+        <br>
+      
+     <table align="center" cellpadding="50" style="border-collapse: collapse" id="result">
+        <tr>
+            {% for i in ag %}
+
+            <td style="color: white;">
+                <div style="text-align:center;border:1px solid black;margin:22px;padding:20px">
+
+                    <p><img src="{{i.agency_photo.url}}" width="100px" height="100px" /></p>
+                    <br>
+                    <p>{{i.agency_name}}</p>
+                    <br>
+                    <p>{{i.agency_contact}}</p>
+                    <br>
+                    <p>{{i.agency_mail}}</p>
+                    <br>
+                    <br>
+                    <p><a href="{% url 'webuser:request' i.id %}">Request</a></p>
+                    <br>
+                </div>
+            </td>
+            {% if forloop.counter|divisibleby:4 %}
+        </tr>
+        <tr>
+            {% endif %}
+
+
+            {% endfor %}
+    </table>
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $("#sel_dist").change(function () {
+            var did = $(this).val();
+            var pid=document.getElementById("pl").value;
+            var cid=document.getElementById("sel_case").value;
+            var ur = $("#UserForm").attr("data-place-url");
+            $.ajax({
+                url: ur,
+                data: { disd: did, },
+                success: function (data) {
+                    $("#pl").html(data);
+                    var ur = $("#UserForm").attr("data-agency-url");
+            $.ajax({
+                url: ur,
+                data: { disd: did,pid:pid,cid:cid, },
+                success: function (data) {
+                    $("#result").html(data);
+                },
+            });
+                },
+            });
+        });
+
+        
+        $("#pl").change(function () {
+            var pid = $(this).val();
+            var did=document.getElementById("sel_dist").value;
+            var cid=document.getElementById("sel_case").value;
+            var ur = $("#UserForm").attr("data-agency-url");
+            $.ajax({
+                url: ur,
+                data: { disd: did,pid:pid,cid:cid },
+                success: function (data) {
+                    $("#result").html(data);
+                },
+            });
+        });
+        
+        
+
+        $("#sel_case").change(function () {
+            
+            var cid = $(this).val();
+            var pid=document.getElementById("pl").value;
+            var ur = $("#UserForm").attr("data-agency-url");
+            var did=document.getElementById("sel_dist").value;
+            $.ajax({
+                url: ur,
+                data: { disd: did,pid:pid,cid:cid },
+                success: function (data) {
+                    $("#result").html(data);
+                },
+            });
+        });
+        
+        </script>
+</body>
+</html>
+<br><br><br><br><br><br><br><br><br>
+{% endblock content %}

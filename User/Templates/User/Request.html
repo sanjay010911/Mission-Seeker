@@ -1,0 +1,33 @@
+{% extends 'User/Head.html' %} 
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body class="img js-fullheight" style="background-image: url({% static 'Main/img/team-bg.jpg' %})">
+    <br><br><br><br><br><br><br><br>
+    <div id="tab">
+        <h1 align="center" style="color: white;">Send Request</h1><br><br>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table border="1" align="center" cellpadding="10" style="border-collapse: collapse;">
+            
+            <tr>
+                <td style="color: white;">Details:</td>
+                <td><textarea id="txt_details" name="txt_details" rows="4" cols="50" required="" autocomplete="off"></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="Send"></td>
+            </tr>
+        </table>
+        
+    </form>
+</body>
+</html>
+<br><br><br><br><br><br><br><br><br>
+{% endblock content %}

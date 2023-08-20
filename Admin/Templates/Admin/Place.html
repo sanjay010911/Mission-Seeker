@@ -1,0 +1,58 @@
+{% extends 'Admin/Head.html' %} 
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table border="1" align="center" cellpadding="10" style="border-collapse: collapse;">
+            <tr>
+                <td>District:</td>
+                <td><select name="sel_district">
+                    <option value="">--SELECT--</option>
+                    {% for i in dis%}
+                    <option value="{{i.id}}">{{i}}</option>
+                    {% endfor %}
+
+                </select></td>
+            </tr>
+            <tr>
+                <td>Place:</td>
+                <td><input type="text" name="txt_place" required="" autocomplete="off"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="Submit"> <input type="reset" value="Cancel"></td>
+            </tr>
+        </table><br>
+        <table border="1" align="center" cellpadding="10" style="border-collapse: collapse;">
+            <tr>
+                <th>Si.no</th>
+                <th>District</th>
+                <th>Place</th>
+                <th>Action</th>
+            </tr>
+            {% for i in res %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.district}}</td>
+                <td>{{i}}</td>
+                <td><a href="{% url 'webadmin:delplace' i.id %}">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <script>
+                {% if msg %}
+                   alert("{{msg}}")
+                {% endif %}
+        </script>
+    </form>
+</body>
+</html>
+{% endblock content %} 

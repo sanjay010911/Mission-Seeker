@@ -1,0 +1,28 @@
+{% extends 'Admin/Head.html' %} 
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1" align="center" cellpadding="10" style="border-collapse: collapse;">
+    <tr>
+        <td>Total Case Requests :</td>
+        <td>{{data}}</td>
+    </tr>
+    <tr>
+        <td>Accepted Case Requests :</td>
+        <td>{{data2}}</td>
+    <tr>
+        <td>Solved Cases :</td>
+        <td>{{data3}}</td>
+   
+    </table>
+    <br><br><br><br><br><br><br><br>
+</html>
+{% endblock content %} 

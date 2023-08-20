@@ -1,0 +1,58 @@
+{% extends 'Agency/Head.html' %} 
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body class="img js-fullheight" style="background-image: url({% static 'Main/img/team-bg.jpg' %})">
+    <br><br><br><br><br><br><br>
+    <div id="tab">
+    <h1 align="center" style="color: white;">Accepted Requests</h1><br><br><br>
+    <table border="1" align="center" cellpadding="10" style="border-collapse: collapse;">
+        <tr>
+            <th style="color: white;">SI No</th>
+            <th style="color: white;">User Name</th>
+            <th style="color: white;">Details</th>
+            <th style="color: white;">Request Date</th>
+            <th style="color: white;">Case Type</th>
+            <th style="color: white;">Payment Status</th>
+            <th style="color: white;">Action</th>
+
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td style="color: white;">{{forloop.counter}}</td>
+            <td style="color: white;">{{i.user.user_name}}</td>
+            <td style="color: white;">{{i.request_details}}</td>
+            <td style="color: white;">{{i.request_date}}</td>
+            <td style="color: white;">{{i.casetype}}</td>
+            <td style="color: white;">
+                {% if i.request_status == 1 %}
+                    {% if i.payment_status == 2 %}
+                        <p style="color: white;">Paid</p>
+                    {% else %}
+                        <p style="color: white;">Not Paid</p>
+                    {% endif %}
+                {% endif %}
+            </td>
+            {% if i.payment_status == 2 %}
+                <td style="color: white;">Completed</td>
+            {% else %}
+                <td style="color: white;"><a href="{% url 'webagency:rejectrequest' i.id %}">Reject</a>
+                    <p><a href="{% url 'webagency:keyverification' i.id %}">Chat Now</a></p>
+                    {% comment %} <p><a href="{% url 'webagency:chargeamt' i.id %}">Set Amount</a></p> {% endcomment %}
+                    <p><a href="{% url 'webagency:uploadreport' i.id%}">Upload Report</a></p></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
+<br><br><br><br><br><br>
+{% endblock content %}

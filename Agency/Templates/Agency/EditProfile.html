@@ -1,0 +1,44 @@
+{% extends 'Agency/Head.html' %} 
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body class="img js-fullheight" style="background-image: url({% static 'Main/img/team-bg.jpg' %})">
+    <br><br><br><br><br><br><br>
+    <div id="tab">
+    <h1 align="center" style="color: white;">Edit Profile</h1><br><br><br>
+    <form action="" method="POST" id="UserForm">
+        {% csrf_token %}
+    <table border="1" align="center" cellpadding="10" style="border-collapse: collapse;">
+        <tr>
+            <td style="color: white;">Name:</td>
+            <td><input type="text" name="txt_name" value="{{data.agency_name}}"></td>
+        </tr>
+        <tr>
+            <td style="color: white;">Contact:</td>
+            <td><input type="text" name="txt_contact" value="{{data.agency_contact}}"></td>
+        </tr>
+        <tr>
+            <td style="color: white;">E-Mail</td>
+            <td><input type="text" name="txt_mail" value="{{data.agency_mail}}"></td>
+        </tr>
+        <tr>
+            <td style="color: white;">Address:</td>
+            <td><textarea id="txt_address" name="txt_address" rows="4" cols="50" required="" autocomplete="off">{{data.agency_address}}</textarea></td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2"><input type="submit" value="Change">&nbsp&nbsp<input type="reset" value="Cancel"></td>
+        </tr>
+    </table>
+    </form>
+</div>
+</body>
+</html>
+<br><br><br><br>
+{% endblock content %}
